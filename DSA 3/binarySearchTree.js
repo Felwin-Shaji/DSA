@@ -78,7 +78,7 @@ class BinarySearchTree{
         }
     }
 
-    levelOrder(root){                 //// BFS(Breadht first Search)
+    levelOrder(root){//// BFS(Breadht first Search)
         let queue = []
         queue.push(this.root);
         while(queue.length){
