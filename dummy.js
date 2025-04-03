@@ -1,57 +1,125 @@
-class MaxHeap{
+class Graph{
     constructor(){
-        this.heap = []
+        this.adjacencyList = {}
     }
 
-    insert(value){
-        this.heap.push(value);
-        this.bubbleUp(this.heap.length-1)
-        }
-
-    bubbleUp(index){
-        while(index>0){
-                let parentIndex = Math.floor((index-1)/2);
-                if(this.heap[parentIndex]<=this.heap[index]) break;
-                [this.heap[parentIndex],this.heap[index]] = [this.heap[index],this.heap[parentIndex]];
-                index = parentIndex
+    addVertex(vertex){
+        if(!this.adjacencyList[vertex]){
+            this.adjacencyList[vertex] = new Set();
         }
     }
 
-    delete(){
-        if(this.heap.length===0) return null;
-        if(this.heap.length === 1) return this.heap.pop();
-        
-        const root = this.heap[0];
-        this.heap[0] = this.heap.pop();
-        this.heapifyDown(0);
-        return root;
+    addEdge(vertex1,vertex2){
+        if(!this.adjacencyList[vertex1]){
+            this.adjacencyList[vertex1] = new Set();
+        }
+        if(!this.adjacencyList[vertex2]){
+            this.adjacencyList[vertex2] = new Set();
+        }
+
+        this.adjacencyList[vertex1].add(vertex2)
+        this.adjacencyList[vertex2].add(vertex1)
     }
 
-    heapifyDown(index){
-        while(true){
-            let largest = index;
-            let left = (2*index)+1;
-            let rigth = (2*index)+2;
-            if(left<this.heap.length && this.heap[left]<this.heap[largest]){
-                largest = left
-            }
-            if(rigth<this.heap.length && this.heap[rigth]<this.heap[largest]){
-                largest = rigth;
-            }
-            if(largest==index) break;
+    bfs(start){
+        let queue = [start];
+        let visited = new Set();
+        let result = [];
 
-            [this.heap[index],this.heap[largest]] = [this.heap[largest],this.heap[index]];
-            index = largest
+        visited.add(start);
+
+        while(queue.length > 0 ){
+            let vertex = queue.shift();
+            result.push(vertex)
+
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if(!visited.has(neighbor)){
+                    visited.add(neighbor)
+                    queue.push(neighbor)
+                }
+            })
+        }
+        return result;
+    }
+
+    dfs(start){
+        let stack = [start];
+        let visited = new Set();
+        let result = [];
+
+        visited.add(start);
+
+        while(stack.length>0){
+            let curr = stack.pop();
+            result.push(curr)
+
+            this.adjacencyList[curr].forEach(neighbor=>{
+                if(!visited.has(neighbor)){
+                    visited.add(neighbor);
+                    stack.push(neighbor)
+                }
+            })
+        }
+        return result
+    }
+
+    hasEdge(vertex1, vertex2){
+        return this.adjacencyList[vertex1].has(vertex2) && this.adjacencyList[vertex2].has(vertex1);
+    }
+
+    display(){
+        for(let vertex in this.adjacencyList){
+            console.log(vertex + " -> " + [...this.adjacencyList[vertex]])
         }
     }
 }
 
-const max = new MaxHeap();
+const graph = new Graph();
+graph.addEdge("A", "C");
+graph.addEdge("A", "E");
+graph.addEdge("A", "D");
 
-max.insert(10);
-max.insert(20);
-max.insert(30);
-max.insert(10);
-max.insert(6);
-max.delete()
-console.log(max.heap)
+graph.addEdge("C", "F");
+graph.addEdge("C", "B");
+graph.addEdge("C", "G");
+graph.addEdge("C", "E");
+
+graph.addEdge("F", "B");
+
+
+console.log(graph.dfs("A"));
+console.log(graph.adjacencyList)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

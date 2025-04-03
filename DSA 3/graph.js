@@ -74,12 +74,20 @@ class Graph{
 }
 
 const graph = new Graph();
-graph.addEdge("A", "B");
 graph.addEdge("A", "C");
-graph.addEdge("B", "D");
+graph.addEdge("A", "E");
+graph.addEdge("A", "D");
+
+graph.addEdge("C", "F");
+graph.addEdge("C", "B");
+graph.addEdge("C", "G");
 graph.addEdge("C", "E");
-graph.addEdge("D", "E");
-console.log(graph.bfs("E"))
+
+graph.addEdge("F", "B");
+
+
+
+console.log(graph.bfs("A"))
 graph.display()
 console.log(graph.adjacencyList)
 

@@ -150,3 +150,10 @@ bst.Insert(7);
 bst.levelOrder()
 // console.log(JSON.stringify(bst, null, 2));
 
+
+//1..find closest element 
+//2.is BST
+//3.2nd largest
+//4.kth largest 
+
+
