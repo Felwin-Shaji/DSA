@@ -1,125 +1,49 @@
-class Graph{
-    constructor(){
-        this.adjacencyList = {}
-    }
-
-    addVertex(vertex){
-        if(!this.adjacencyList[vertex]){
-            this.adjacencyList[vertex] = new Set();
-        }
-    }
-
-    addEdge(vertex1,vertex2){
-        if(!this.adjacencyList[vertex1]){
-            this.adjacencyList[vertex1] = new Set();
-        }
-        if(!this.adjacencyList[vertex2]){
-            this.adjacencyList[vertex2] = new Set();
-        }
-
-        this.adjacencyList[vertex1].add(vertex2)
-        this.adjacencyList[vertex2].add(vertex1)
-    }
-
-    bfs(start){
-        let queue = [start];
-        let visited = new Set();
-        let result = [];
-
-        visited.add(start);
-
-        while(queue.length > 0 ){
-            let vertex = queue.shift();
-            result.push(vertex)
-
-            this.adjacencyList[vertex].forEach(neighbor => {
-                if(!visited.has(neighbor)){
-                    visited.add(neighbor)
-                    queue.push(neighbor)
-                }
-            })
-        }
-        return result;
-    }
-
-    dfs(start){
-        let stack = [start];
-        let visited = new Set();
-        let result = [];
-
-        visited.add(start);
-
-        while(stack.length>0){
-            let curr = stack.pop();
-            result.push(curr)
-
-            this.adjacencyList[curr].forEach(neighbor=>{
-                if(!visited.has(neighbor)){
-                    visited.add(neighbor);
-                    stack.push(neighbor)
-                }
-            })
-        }
-        return result
-    }
-
-    hasEdge(vertex1, vertex2){
-        return this.adjacencyList[vertex1].has(vertex2) && this.adjacencyList[vertex2].has(vertex1);
-    }
-
-    display(){
-        for(let vertex in this.adjacencyList){
-            console.log(vertex + " -> " + [...this.adjacencyList[vertex]])
-        }
+class Node{
+    constructor(value){
+        this.value = value;
+        this.left = null;
+        this.rigth = null;
     }
 }
 
-const graph = new Graph();
-graph.addEdge("A", "C");
-graph.addEdge("A", "E");
-graph.addEdge("A", "D");
+class Bst{
+    constructor(){
+        this.root = null;
+    }
 
-graph.addEdge("C", "F");
-graph.addEdge("C", "B");
-graph.addEdge("C", "G");
-graph.addEdge("C", "E");
+    insert(value){
+        const node = new Node(value);
+        if(this.root==null){
+            this.root = node;
+        }else{
+            this.insertNode(this.root,node)
+        }
+    }
 
-graph.addEdge("F", "B");
+    insertNode(root,node){
+        if(node.value < root.value){
+            if(root.left==null){
+                root.left = node;
+            }else{
+                this.insertNode(root.left,node)
+            }
+        }else{
+            if(root.rigth==null){
+                root.rigth = node
+            }else{
+                this.insertNode(root.rigth,node)
+            }
+        }
+    }
 
+    search
+}
 
-console.log(graph.dfs("A"));
-console.log(graph.adjacencyList)
+const bst = new Bst()
 
+bst.insert(20);
+bst.insert(10);
+bst.insert(45);
+bst.insert(27);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(bst.root);

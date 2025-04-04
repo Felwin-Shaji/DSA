@@ -137,6 +137,35 @@ class BinarySearchTree{
         return root;
     }
 
+    isBst(node = this.root, min= -Infinity, max= Infinity){
+        if(node === null) return true;
+        
+        if(node.value <= min || node.value>=max) return false
+        
+        return this.isBst(node.left, min, node.value) && this.isBst(node.right,node.value,max);
+    }
+
+    findKthLargest(k){
+        let count = 0;
+        let result = null;
+
+        function reverseInorder(node){
+            if(!node || count >=k) return
+
+            reverseInorder(node.right);
+
+            count++
+            if(count === k){
+                result = node.value;
+                return 
+            }
+
+            reverseInorder(node.left)
+        }
+        reverseInorder(this.root)
+        return result;
+    }
+
 }
 
 const bst = new BinarySearchTree()
